@@ -18,3 +18,8 @@ model Post {
 
     @@index([name])
 }
+
+model Category {
+    id           Int    @id @default(autoincrement())
+    categoryName String @unique
+}
