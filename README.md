@@ -29,5 +29,8 @@ Submit Answer
 - [x] generate data (faker.js) & send to server (first update prisma)
 
 - [x] create user schema 
-- [ ] backend for user signup & signin
-- [ ] create ui for signup & signin page 
+- [x] frontend & backend for user signup 
+- [x] setup email sending service
+- [ ] frontend & backend for otp signp
+- [ ] frontend & backend for user signin 
+- [ ] create furnished ui for signup & signin page 
