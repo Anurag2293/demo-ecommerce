@@ -1,12 +1,11 @@
 
-import { CreateFakeProductCategories } from "./_components/fakeProduct";
+import Link from "next/link";
 
 export default async function Home() {
 	return (
 		<div>
-			<h1>Hi</h1>
-			<hr />
-			<CreateFakeProductCategories />
+			{/* // <CreateUser /> */}
+			<Link href="/signup">Signup</Link>
 		</div>
 	);
 }
