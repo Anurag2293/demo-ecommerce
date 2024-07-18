@@ -6,6 +6,9 @@ import { type Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
 import { HydrateClient } from "~/trpc/server";
 
+import { CounterStoreProvider } from "~/providers/counter-store-provider";
+import { AuthStoreProvider } from "~/providers/auth-store-provider";
+
 export const metadata: Metadata = {
   title: "Ecommerce Project",
   description: "Complete Ecommerce Store. Select from 100+ Categories!",
@@ -20,7 +23,9 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>
           <HydrateClient>
-            {children}
+            <CounterStoreProvider>
+              <AuthStoreProvider>{children}</AuthStoreProvider>
+            </CounterStoreProvider>
           </HydrateClient>
         </TRPCReactProvider>
       </body>
