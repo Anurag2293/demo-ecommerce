@@ -10,7 +10,7 @@ export type AuthState = {
 
 export type AuthActions = {
   verifyOTP: () => void;
-  updateAuthState: () => void;
+  updateAuthState: (newAuthState: AuthState) => void;
 };
 
 export type AuthStore = AuthState & AuthActions;
@@ -36,8 +36,11 @@ export const defaultInitState: AuthState = {
 export const createAuthStore = (initState: AuthState = defaultInitState) => {
   return createStore<AuthStore>()((set) => ({
     ...initState,
-    verifyOTP: () => set((state) => ({ ...state, verified: true })),
-    updateAuthState: () =>
-      set((state) => ({ ...state, isAuthenticated: true })),
+    verifyOTP: () => set((state) => {
+      return { ...state, verified: true }
+    }),
+    updateAuthState: (authState) => set((state) => {
+        return { ...state, ...authState }
+      }),
   }));
 };

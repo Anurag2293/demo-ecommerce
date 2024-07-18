@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { api } from "~/trpc/react";
+import { useAuthStore } from "~/providers/auth-store-provider";
 
 const formSchema = z.object({
   name: z
@@ -28,6 +29,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function UserSignup() {
   const router = useRouter();
+  const { updateAuthState } = useAuthStore(state => state);
 
   const createUser = api.user.signupUser.useMutation({
     onSuccess: (result, variables) => {
@@ -35,7 +37,17 @@ export function UserSignup() {
       if (result.success) {
         alert(result.message);
         console.log(result.user);
-        // router.push(`/signup/otp?email=${variables.email}`);
+        
+        updateAuthState({
+          email: variables.email,
+          name: variables.name,
+          otp: result.otp,
+          verified: false,
+          isAuthenticated: false
+        });
+
+        router.push("/signup/otp");
+
       } else {
         alert(result.message);
       }
