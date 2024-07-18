@@ -7,7 +7,7 @@ import { generateOTP } from "~/utils/otp";
 const sendOTPEmail = async (email: string, name: string, otp: string) => {
   try {
     const mailerSend = new MailerSend({
-      apiKey: process.env.MAILERSEND_API_KEY || "",
+      apiKey: process.env.MAILERSEND_API_KEY ?? "",
     });
     const sentFrom = new Sender(
       "mailersend@trial-z3m5jgr0nwogdpyo.mlsender.net",
@@ -85,7 +85,7 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       try {
         const mailerSend = new MailerSend({
-          apiKey: process.env.MAILERSEND_API_KEY || "",
+          apiKey: process.env.MAILERSEND_API_KEY ?? "",
         });
         const sentFrom = new Sender(
           "mailersend@trial-z3m5jgr0nwogdpyo.mlsender.net",
@@ -109,8 +109,4 @@ export const userRouter = createTRPCRouter({
         return { success: false, error };
       }
     }),
-
-  sendVerificationOTP: publicProcedure
-    .input(userSignupSchema)
-    .mutation(async ({ ctx, input }) => {}),
 });
