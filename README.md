@@ -1,5 +1,5 @@
 
-## Question Statement 
+## Question Statement
 
 Q2. Develop a simple sign-up and login flow for an e-commerce website where users are able to mark the categories that they are interested in. Design Link: https://www.figma.com/file/EjNZkDNTtgERV5PgF0mxnt/MERN-Assignment?type=design&node-id=33%3A667&mode=design&t=6k9GiDcswPavM0TD-1
 
@@ -13,7 +13,7 @@ Framework: We recommend using https://create.t3.gg/. This will provide you with 
 VCS: Push your code on github and share the repository link. Please make sure you create a public repository.
 App hosting: We recommend hosting your app on vercel’s free tier- https://vercel.dev/. If you have experience with any other free Next.js hosting provider, feel free to use that.
 Can I use some other tech stack?
-We insist against using what’s recommended above. 
+We insist against using what’s recommended above.
 One reason is that we want to test how well you acclimatise yourself with a new tech within your general area of expertise.
 And second, we are able to evaluate your submissions uniformly against other submissions that we receive.
 
@@ -28,9 +28,9 @@ Submit Answer
 - [x] demo api with trpc
 - [x] generate data (faker.js) & send to server (first update prisma)
 
-- [x] create user schema 
-- [x] frontend & backend for user signup 
+- [x] create user schema
+- [x] frontend & backend for user signup
 - [x] setup email sending service
-- [ ] frontend & backend for otp signp
-- [ ] frontend & backend for user signin 
-- [ ] create furnished ui for signup & signin page 
+- [ ] frontend & backend for otp signup
+- [ ] frontend & backend for user signin
+- [ ] create furnished ui for signup & signin page

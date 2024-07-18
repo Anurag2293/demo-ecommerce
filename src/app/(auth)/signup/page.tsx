@@ -1,7 +1,5 @@
-import { CreateUser } from "~/app/_components/createUser"
+import { UserSignup } from "~/app/_components/signup-user";
 
 export default function Signup() {
-    return (
-        <CreateUser />
-    )
+  return <UserSignup />;
 }
