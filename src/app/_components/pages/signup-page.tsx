@@ -43,7 +43,7 @@ export function UserSignup() {
           name: variables.name,
           otp: result.otp,
           verified: false,
-          isAuthenticated: false
+          isAuthenticated: true
         });
 
         router.push("/signup/otp");

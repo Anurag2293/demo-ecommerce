@@ -15,6 +15,8 @@ export const userRouter = createTRPCRouter({
     .input(userSignupSchema)
     .mutation(async ({ ctx, input }) => {
       try {
+
+        // TODO: Hash password before creating user 
         const newUser = await ctx.db.user.create({
           data: input,
         });
@@ -31,6 +33,8 @@ export const userRouter = createTRPCRouter({
           throw new Error(message);
         }
 
+        // TODO: Create JWT Token and save in http cookie.
+
         return {
           success: true,
           message: "OTP Sent Successfully!",
@@ -46,4 +50,33 @@ export const userRouter = createTRPCRouter({
         };
       }
     }),
+
+  verifyUser: publicProcedure
+    .input(z.object({ email: z.string().email(), enteredOTP: z.string(), correctOTP: z.string()}))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        if (input.correctOTP !== input.enteredOTP) {
+          throw new Error("Incorrect OTP Entered!");
+        }
+        
+        await ctx.db.user.update({
+          where: {
+            email: input.email
+          },
+          data: {
+            verified: true 
+          }
+        })
+
+        return {
+          success: true,
+          message: "User verified successfully!"
+        }
+      } catch (error) {
+        return {
+          success: false,
+          message: (error as Error).message
+        }
+      }
+    })
 });

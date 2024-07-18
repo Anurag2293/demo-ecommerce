@@ -10,16 +10,16 @@ export function generateOTP(length = 8): string {
   return otp;
 }
 
-export function verifyOTP(storedOTP: string, userEnteredOTP: string): boolean {
-  // Basic comparison (case-sensitive)
-  if (storedOTP === userEnteredOTP) {
-    return true; // OTPs match
-  } else {
-    // Optional: More lenient checks (case-insensitive, whitespace tolerance)
-    if (storedOTP.toLowerCase() === userEnteredOTP.toLowerCase().trim()) {
-      return true;
-    }
-  }
+// export function verifyOTP(storedOTP: string, userEnteredOTP: string): boolean {
+//   // Basic comparison (case-sensitive)
+//   if (storedOTP === userEnteredOTP) {
+//     return true; // OTPs match
+//   } else {
+//     // Optional: More lenient checks (case-insensitive, whitespace tolerance)
+//     if (storedOTP.toLowerCase() === userEnteredOTP.toLowerCase().trim()) {
+//       return true;
+//     }
+//   }
 
-  return false; // OTPs don't match
-}
+//   return false; // OTPs don't match
+// }

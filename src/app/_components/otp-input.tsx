@@ -3,7 +3,8 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 
 type Props = {
 	length: number,
-	onOTPSubmit: (otp: string) => void
+	onOTPSubmit: (otp: string) => void,
+	isVerifying: boolean
 }
 
 export const OTPInput = (props: Props) => {
@@ -88,7 +89,7 @@ export const OTPInput = (props: Props) => {
 				type="button"
 				onClick={handleVerifyClick}
 				disabled={otp.join("").length < props.length}
-			>Verify</button>
+			>{props.isVerifying ? "Verifying..." : "Verify"}</button>
 		</div>
 	)
 }

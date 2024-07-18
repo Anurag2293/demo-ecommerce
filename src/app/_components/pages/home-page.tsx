@@ -7,10 +7,13 @@ import { useAuthStore } from "~/providers/auth-store-provider"
 export function HomePage() {
     const router = useRouter();
 
-    const { isAuthenticated } = useAuthStore(state => state);
+    const { isAuthenticated, verified } = useAuthStore(state => state);
 
     if (!isAuthenticated) {
         router.push("/signup");
+    }
+    if (!verified) {
+        router.push("/login");
     }
 
     return (
