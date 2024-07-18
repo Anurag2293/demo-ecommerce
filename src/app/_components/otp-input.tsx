@@ -2,13 +2,19 @@
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 
 type Props = {
-  length: number,
-  onOTPSubmit: (otp: string) => void
+	length: number,
+	onOTPSubmit: (otp: string) => void
 }
 
 export const OTPInput = (props: Props) => {
-    const [otp, setOtp] = useState<string[]>(new Array(props.length).fill(""));
+	const [otp, setOtp] = useState<string[]>(new Array(props.length).fill(""));
 	const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+	useEffect(() => {
+		if (inputRefs.current[0]) {
+			inputRefs.current[0].focus();
+		}
+	}, []);
 
 	const handleChange = (index: number, e: ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value;
@@ -57,13 +63,13 @@ export const OTPInput = (props: Props) => {
 		}
 	}
 
-    return (
-        <div>
+	return (
+		<div>
 			{otp.map((value, index) => {
 				return (
-					<input 
+					<input
 						key={index}
-						type="text" 
+						type="text"
 						value={value}
 						inputMode="numeric"
 						ref={(input) => {
@@ -78,11 +84,11 @@ export const OTPInput = (props: Props) => {
 					/>
 				)
 			})}
-			<button 
-				type="button" 
+			<button
+				type="button"
 				onClick={handleVerifyClick}
 				disabled={otp.join("").length < props.length}
 			>Verify</button>
-        </div>
-    )
+		</div>
+	)
 }
