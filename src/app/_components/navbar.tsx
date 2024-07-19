@@ -12,7 +12,7 @@ export function Navbar() {
             </div>
             <div className="py-2 px-10 flex justify-between items-center">
                 <Link href="/"><h1 className="text-[32px] font-bold">ECOMMERCE</h1></Link>
-                <div className="gap-x-8 flex">
+                <div className="hidden lg:flex gap-x-8 mr-24 ">
                     <Link href="/" className="text-base font-semibold">Categories</Link>
                     <Link href="/" className="text-base font-semibold">Sale</Link>
                     <Link href="/" className="text-base font-semibold">Clearance</Link>
