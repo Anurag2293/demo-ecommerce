@@ -11,8 +11,7 @@ export function HomePage() {
 
     if (!isAuthenticated) {
         router.push("/signup");
-    }
-    if (!verified) {
+    } else if (!verified) {
         router.push("/login");
     }
 

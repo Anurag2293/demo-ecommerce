@@ -23,6 +23,7 @@ Submit Answer
 
 ## TODO
 
+ESSENTIAL 
 - [x] deploy to vercel
 - [x] learn about trpc
 - [x] demo api with trpc
@@ -31,6 +32,15 @@ Submit Answer
 - [x] create user schema
 - [x] frontend & backend for user signup
 - [x] setup email sending service
-- [ ] frontend & backend for otp signup
+- [x] frontend & backend for otp signup
 - [ ] frontend & backend for user signin
 - [ ] create furnished ui for signup & signin page
+
+- [ ] Display Categories using pagination (frontend & backend)
+- [ ] Let user's select their categories (db, backend, frontend)
+- [ ] Make UI nice for Categories page
+
+OPTIONAL (but important)
+- [ ] store password in hash form (update remaining code acc/)
+- [ ] do auth using JWT 
+- [ ] can verifyOTP while login also
