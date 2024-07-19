@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -112,7 +112,7 @@ export function UserLogin() {
             <div className="h-px mt-7 bg-[#C1C1C1]"></div>
 
             <div className="mt-8 text-center">
-                <p className="text-base font-normal">Don't have an Account? <Link href="/signup" className="font-medium uppercase">Sign Up</Link></p>
+                <p className="text-base font-normal">{"Don't have an Account?"}<Link href="/signup" className="font-medium uppercase">Sign Up</Link></p>
             </div>
         </div>
     )

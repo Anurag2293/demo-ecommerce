@@ -4,7 +4,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 export const fakeProductRouter = createTRPCRouter({
     createCategories: publicProcedure
         .input(z.string())
-        .mutation(({ ctx, input }) => {
+        .mutation(({ ctx }) => {
             const ecommerceCategories = [
                 { categoryName: "Fabrics & Textiles" },
                 { categoryName: "Hobby & Model Supplies" }

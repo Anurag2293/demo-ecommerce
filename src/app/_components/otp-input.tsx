@@ -1,5 +1,6 @@
 
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { type ChangeEvent, type KeyboardEvent, useEffect, useRef, useState } from 'react'
+
 
 type Props = {
 	length: number,
@@ -83,7 +84,7 @@ export const OTPInput = (props: Props) => {
 							onChange={(e) => handleChange(index, e)}
 							onClick={() => handleClick(index)}
 							onKeyDown={(e) => handleKeyDown(index, e)}
-							className={`h-12 max-w-12 pl-[18px] text-xl  rounded-[6px] border-[1px] border-[#C1C1C1] focus:outline-none ${(otp[index]?.length || 0) > 0 && 'border-blue-600'}`}
+							className={`h-12 max-w-12 pl-[18px] text-xl  rounded-[6px] border-[1px] border-[#C1C1C1] focus:outline-none ${(otp[index]?.length ?? 0) > 0 && 'border-blue-600'}`}
 						/>
 					)
 				})}
