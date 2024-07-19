@@ -65,31 +65,35 @@ export const OTPInput = (props: Props) => {
 	}
 
 	return (
-		<div>
-			{otp.map((value, index) => {
-				return (
-					<input
-						key={index}
-						type="text"
-						value={value}
-						inputMode="numeric"
-						ref={(input) => {
-							if (input) {
-								inputRefs.current[index] = input;
-							}
-						}}
-						onChange={(e) => handleChange(index, e)}
-						onClick={() => handleClick(index)}
-						onKeyDown={(e) => handleKeyDown(index, e)}
-						className='h-4 w-4 border-2 border-cyan-400'
-					/>
-				)
-			})}
+		<>
+			<p>Code</p>
+			<div className='flex justify-between'>
+				{otp.map((value, index) => {
+					return (
+						<input
+							key={index}
+							type="text"
+							value={value}
+							inputMode="numeric"
+							ref={(input) => {
+								if (input) {
+									inputRefs.current[index] = input;
+								}
+							}}
+							onChange={(e) => handleChange(index, e)}
+							onClick={() => handleClick(index)}
+							onKeyDown={(e) => handleKeyDown(index, e)}
+							className={`h-12 max-w-12 pl-[18px] text-xl  rounded-[6px] border-[1px] border-[#C1C1C1] focus:outline-none ${(otp[index]?.length || 0) > 0 && 'border-blue-600'}`}
+						/>
+					)
+				})}
+			</div>
 			<button
 				type="button"
 				onClick={handleVerifyClick}
 				disabled={otp.join("").length < props.length}
+				className={`w-full mt-16 py-3 rounded-[6px] uppercase text-white bg-black ${otp.join("").length < props.length ? 'cursor-not-allowed' : 'cursor-pointer'} `}
 			>{props.isVerifying ? "Verifying..." : "Verify"}</button>
-		</div>
+		</>
 	)
 }

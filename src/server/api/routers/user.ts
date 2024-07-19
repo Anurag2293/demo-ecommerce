@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { User } from "@prisma/client";
+
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { generateOTP } from "~/utils/otp";
 import { sendOTPEmail } from "~/utils/email";
@@ -53,13 +55,13 @@ export const userRouter = createTRPCRouter({
 
   verifyUser: publicProcedure
     .input(z.object({ email: z.string().email(), enteredOTP: z.string(), correctOTP: z.string()}))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) : Promise<{ success: boolean, message: string, user: User}> => {
       try {
         if (input.correctOTP !== input.enteredOTP) {
           throw new Error("Incorrect OTP Entered!");
         }
         
-        await ctx.db.user.update({
+        const updatedUser = await ctx.db.user.update({
           where: {
             email: input.email
           },
@@ -70,12 +72,14 @@ export const userRouter = createTRPCRouter({
 
         return {
           success: true,
-          message: "User verified successfully!"
+          message: "User verified successfully!",
+          user: updatedUser
         }
       } catch (error) {
         return {
           success: false,
-          message: (error as Error).message
+          message: (error as Error).message,
+          user: { email: "", name: "", password: "", verified: false, id: -1 }
         }
       }
     }),
