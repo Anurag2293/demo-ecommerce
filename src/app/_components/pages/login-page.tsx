@@ -105,7 +105,7 @@ export function UserLogin() {
                     disabled={loginUser.isPending}
                     className="w-full bg-black text-white rounded-[6px] mt-4 py-4 text-base font-medium uppercase"
                 >
-                    {loginUser.isPending ? "Loggin in..." : "Login"}
+                    {loginUser.isPending ? "Logging in..." : "Login"}
                 </button>
 
             </form>
