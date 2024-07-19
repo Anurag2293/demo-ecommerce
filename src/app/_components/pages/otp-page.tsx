@@ -4,19 +4,19 @@ import { useRouter } from "next/navigation";
 
 import { api } from "~/trpc/react";
 import { useAuthStore } from "~/providers/auth-store-provider";
-import { OTPInput } from "../otp-input";
+import { OTPInput } from "~/app/_components/otp-input";
 
 
 export function ValidateOTP() {
     const router = useRouter();
 
-    const { otp: correctOTP, email, verified, isAuthenticated, verifyOTP } = useAuthStore(state => state);
+    const { otp: correctOTP, email, isVerified, isAuthenticated, verifyOTP } = useAuthStore(state => state);
 
-    if (isAuthenticated && verified) {
+    if (isAuthenticated && isVerified) {
         router.push("/");
-    } else if (verified && !isAuthenticated) {
+    } else if (isVerified && !isAuthenticated) {
         router.push("/login");
-    } else if (!verified && !isAuthenticated) {
+    } else if (!isVerified && !isAuthenticated) {
         router.push("/signup");
     }
 

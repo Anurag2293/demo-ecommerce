@@ -1,3 +1,6 @@
+
+import { UserLogin } from "~/app/_components/pages/login-page";
+
 export default function Login() {
-  return <div>Login Page</div>;
+	return <UserLogin />
 }
