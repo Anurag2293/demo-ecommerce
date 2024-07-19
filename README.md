@@ -44,3 +44,6 @@ OPTIONAL (but important)
 - [ ] store password in hash form (update remaining code acc/)
 - [ ] do auth using JWT 
 - [ ] can verifyOTP while login also
+
+THINK ABOUT
+- [ ] Where will you fetch user info if we have JWT Auth and we can directly login using JWT tokens?
