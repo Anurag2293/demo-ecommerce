@@ -1,0 +1,130 @@
+"use client";
+
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { z } from "zod";
+
+import { api } from "~/trpc/react";
+import { useAuthStore } from "~/providers/auth-store-provider";
+import Link from "next/link";
+
+const formSchema = z.object({
+	name: z
+		.string()
+		.min(1, { message: "Name must be at least 1 character long" }),
+	email: z.string().email(),
+	password: z
+		.string()
+		.min(8, { message: "Password must be at least 8 characters long" })
+		.regex(
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+			{
+				message:
+					"Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+			},
+		),
+});
+
+type FormData = z.infer<typeof formSchema>;
+
+export function UserSignup() {
+	const router = useRouter();
+	const { isAuthenticated, isVerified, updateAuthState } = useAuthStore(state => state);
+
+	if (isAuthenticated && isVerified) {
+		router.push("/");
+	}
+
+	const createUser = api.user.signupUser.useMutation({
+		onSuccess: (result, variables) => {
+			console.log({ result });
+			if (result.success) {
+				alert(result.message);
+				console.log(result.user);
+
+				updateAuthState({
+					email: variables.email,
+					name: variables.name,
+					otp: result.otp,
+					isVerified: false,
+					isAuthenticated: true
+				});
+
+				router.push("/signup/otp");
+
+			} else {
+				alert(result.message);
+			}
+		},
+		onError: (error) => {
+			alert(error.shape);
+			console.log(error.shape);
+		},
+	});
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<FormData>({
+		resolver: zodResolver(formSchema),
+	});
+
+	const onSubmit: SubmitHandler<FormData> = (data) => {
+		createUser.mutate(data);
+	};
+
+	return (
+		<div className="w-11/12 sm:w-5/6 md:w-[36rem] my-10 mx-auto py-10 md:pb-24  px-[3.75rem] border-[1px] border-[#C1C1C1] rounded-[20px]">
+			<h1 className="text-[32px] font-semibold text-center">Create your account</h1>
+			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4 my-5 mb-10">
+				<div className="flex flex-col">
+					<label htmlFor="name" className="text-base font-normal">Name</label>
+					<input
+						type="text"
+						{...register("name")}
+						placeholder="Enter you name"
+						className={`border-[1px] rounded-[6px] py-2 px-3 focus:outline-none ${errors.name ? 'border-red-600' : 'border-[#C1C1C1]'}`}
+					/>
+					{!errors.name && <p className="text-xs invisible">{"some stuff"}</p>}
+					{errors.name && <p className="text-xs text-red-600">{errors.name.message}</p>}
+				</div>
+				<div className="flex flex-col">
+					<label htmlFor="email">Email</label>
+					<input
+						type="text"
+						{...register("email")}
+						placeholder="Enter you email"
+						className={`border-[1px] rounded-[6px] py-2 px-3 focus:outline-none ${errors.email ? 'border-red-600' : 'border-[#C1C1C1]'}`}
+					/>
+					{!errors.email && <p className="text-xs invisible">{"some stuff"}</p>}
+					{errors.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
+				</div>
+				<div className="flex flex-col">
+					<label htmlFor="password">Password</label>
+					<input
+						type="password"
+						{...register("password")}
+						placeholder="Enter you password"
+						className={`border-[1px] rounded-[6px] py-2 px-3 focus:outline-none ${errors.password ? 'border-red-600' : 'border-[#C1C1C1]'}`}
+					/>
+					{!errors.password && <p className="text-xs invisible">{"some stuff"}</p>}
+					{errors.password && <p className="text-xs text-red-600">{errors.password.message}</p>}
+				</div>
+
+				<button
+					type="submit"
+					disabled={createUser.isPending}
+					className="w-full bg-black text-white rounded-[6px] mt-4 py-4 text-base font-medium uppercase"
+				>
+					{createUser.isPending ? "Creating Account..." : "Create Account"}
+				</button>
+			</form>
+
+			<div className="text-center">
+				<p className="text-base font-normal">Have an Account? <Link href="/login" className="font-medium uppercase">Login</Link></p>
+			</div>
+		</div>
+	);
+}

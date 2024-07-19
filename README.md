@@ -1,29 +1,50 @@
-# Create T3 App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Question Statement
 
-## What's next? How do I make an app with this?
+Q2. Develop a simple sign-up and login flow for an e-commerce website where users are able to mark the categories that they are interested in. Design Link: https://www.figma.com/file/EjNZkDNTtgERV5PgF0mxnt/MERN-Assignment?type=design&node-id=33%3A667&mode=design&t=6k9GiDcswPavM0TD-1
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+You will see 4 screens in the design. First 2 are for the registration of new users, the third one is for the login of an existing user and the 4th one is a protected page that only logged in users can access. On this protected page, users see a list of categories that we have in our database (you can use faker to generate this data - https://fakerjs.dev/). Create 100 entries for the categories in your database using faker. Users can mark the categories that they are interested in. This is a paginated list where only 6 categories are visible at a time. Users can interact with pagination to see categories on various pages. Users should be able to see what categories they selected when they logout and login again. So we should store what they check in our database.
+The header is common for all the pages. The header should be static for the scope of this assignment and should not have any interactions like menus flying out.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+What tech to use?
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Database: MySQL or Postgres. We recommend using https://neon.tech/ that offers a free postgres database. If you are comfortable with any other database provider than neon, please feel free to use that. Using RDBMS is a must.
+Framework: We recommend using https://create.t3.gg/. This will provide you with Next.js for developing react components. tRPC for writing APIs. Prisma as a database ORM and tailwind setup for writing CSS. Please do not use NextAuth.js for this task. If you wish to write APIs outside tRPC in Next.js, feel free to do so. You can do it normally in Next.js - https://create.t3.gg/en/usage/trpc#how-do-i-call-my-api-externally.
+VCS: Push your code on github and share the repository link. Please make sure you create a public repository.
+App hosting: We recommend hosting your app on vercel’s free tier- https://vercel.dev/. If you have experience with any other free Next.js hosting provider, feel free to use that.
+Can I use some other tech stack?
+We insist against using what’s recommended above.
+One reason is that we want to test how well you acclimatise yourself with a new tech within your general area of expertise.
+And second, we are able to evaluate your submissions uniformly against other submissions that we receive.
 
-## Learn More
+For the video link field, record one video showing the demos of both your projects. Use Loom (https://www.loom.com/) to record yourself and your computer screen. Minimum duration should be 2 minutes, maximum 5 minutes and the ideal length would be around 3-4 minutes. Replace "share" with "embed" in loom link, so it'd become like https://www.loom.com/embed/xyz
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Submit Answer
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## TODO
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+ESSENTIAL 
+- [x] deploy to vercel
+- [x] learn about trpc
+- [x] demo api with trpc
+- [x] generate data (faker.js) & send to server (first update prisma)
 
-## How do I deploy this?
+- [x] create user schema
+- [x] frontend & backend for user signup
+- [x] setup email sending service
+- [x] frontend & backend for otp signup
+- [x] frontend & backend for user signin
+- [x] create furnished navbar
+- [ ] create furnished ui for signup, otp & signin page
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- [ ] Display Categories using pagination (frontend & backend)
+- [ ] Let user's select their categories (db, backend, frontend)
+- [ ] Make UI nice for Categories page
+
+OPTIONAL (but important)
+- [ ] store password in hash form (update remaining code acc/)
+- [ ] do auth using JWT 
+- [ ] can verifyOTP while login also
+
+THINK ABOUT
+- [ ] Where will you fetch user info if we have JWT Auth and we can directly login using JWT tokens?
