@@ -29,7 +29,11 @@ type FormData = z.infer<typeof formSchema>;
 
 export function UserSignup() {
 	const router = useRouter();
-	const { updateAuthState } = useAuthStore(state => state);
+	const { isAuthenticated, isVerified ,updateAuthState } = useAuthStore(state => state);
+
+	if (isAuthenticated && isVerified) {
+		router.push("/"); 
+	}
 
 	const createUser = api.user.signupUser.useMutation({
 		onSuccess: (result, variables) => {

@@ -78,5 +78,37 @@ export const userRouter = createTRPCRouter({
           message: (error as Error).message
         }
       }
+    }),
+
+  loginUser: publicProcedure
+    .input(z.object({ email: z.string().email(), password: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const currentUser = await ctx.db.user.findFirst({
+          where: {
+            email: input.email
+          }
+        });
+        if (!currentUser) {
+          throw new Error("No such user exists!");
+        } 
+        if (!currentUser.verified) {
+          throw new Error("User unverified!");
+        }
+        if (currentUser.password !== input.password) {
+          throw new Error("Incorrect Password!");
+        }
+        return {
+          success: true,
+          user: currentUser,
+          message: "Login successful!"
+        }
+      } catch (error) {
+        return {
+          success: false,
+          user: null,
+          message: (error as Error).message
+        }
+      }
     })
 });

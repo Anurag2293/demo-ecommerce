@@ -33,7 +33,7 @@ ESSENTIAL
 - [x] frontend & backend for user signup
 - [x] setup email sending service
 - [x] frontend & backend for otp signup
-- [ ] frontend & backend for user signin
+- [x] frontend & backend for user signin
 - [ ] create furnished ui for signup & signin page
 
 - [ ] Display Categories using pagination (frontend & backend)
