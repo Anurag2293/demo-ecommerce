@@ -35,7 +35,7 @@ ESSENTIAL
 - [x] frontend & backend for otp signup
 - [x] frontend & backend for user signin
 - [x] create furnished navbar
-- [ ] create furnished ui for signup, otp & signin page
+- [x] create furnished ui for signup, otp & signin page
 
 - [ ] Display Categories using pagination (frontend & backend)
 - [ ] Let user's select their categories (db, backend, frontend)
