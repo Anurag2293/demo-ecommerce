@@ -84,7 +84,7 @@ export const OTPInput = (props: Props) => {
 							onChange={(e) => handleChange(index, e)}
 							onClick={() => handleClick(index)}
 							onKeyDown={(e) => handleKeyDown(index, e)}
-							className={`h-12 max-w-12 pl-[18px] text-xl  rounded-[6px] border-[1px] border-[#C1C1C1] focus:outline-none ${(otp[index]?.length ?? 0) > 0 && 'border-blue-600'}`}
+							className={`size-8 pl-2 rounded sm:size-10 sm:pl-4 sm:rounded md:size-12 md:pl-[18px] md:rounded-[6px] md:text-xl border-[1px] border-[#C1C1C1] focus:outline-none ${(otp[index]?.length ?? 0) > 0 && 'border-blue-600'}`}
 						/>
 					)
 				})}

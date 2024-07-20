@@ -49,10 +49,10 @@ export function UserSignup() {
 					name: variables.name,
 					otp: result.otp,
 					isVerified: false,
-					isAuthenticated: true
+					isAuthenticated: false
 				});
 
-				router.push("/signup/otp");
+				router.push("/verify-otp");
 
 			} else {
 				alert(result.message);

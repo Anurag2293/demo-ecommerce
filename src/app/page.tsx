@@ -1,5 +1,5 @@
 
-import { FetchCategories } from "./_components/pages/home-page";
+import { HomePage } from "./_components/pages/home-page";
 
 export default async function Home() {
 	return (
@@ -7,7 +7,7 @@ export default async function Home() {
 			<h1 className="text-[32px] font-semibold text-center">Please mark your interests!</h1>
 			<p className="text-base font-normal text-center mt-3">We will keep you notified.</p>
 			<p className="text-xl font-medium text-start mt-8">My saved interests!</p>
-			<FetchCategories />
+			<HomePage />
 		</div>
 	)
 }

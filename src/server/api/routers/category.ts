@@ -1,16 +1,15 @@
 import { z } from "zod";
 
 import { type Category } from "@prisma/client";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 
 export const categoryRouter = createTRPCRouter({
-    fetchCategories: publicProcedure
+    fetchCategories: protectedProcedure
         .input(
             z.object({
                 limit: z.number().min(1).max(100).default(10),
                 skip: z.number().default(0),
-                userId: z.number()
             })
         )
         .query(async ({ ctx, input }): Promise<{
@@ -27,7 +26,7 @@ export const categoryRouter = createTRPCRouter({
 
                 const interestedCategories = await ctx.db.userInterest.findMany({
                     where: {
-                        userId: input.userId
+                        userId: ctx.user.id
                     }
                 });
 
@@ -52,10 +51,10 @@ export const categoryRouter = createTRPCRouter({
             }
         }),
 
-    markCategoryInterest: publicProcedure
+
+    markCategoryInterest: protectedProcedure
         .input(
             z.object({
-                userId: z.number(),
                 categoryId: z.number()
             })
         )
@@ -64,7 +63,7 @@ export const categoryRouter = createTRPCRouter({
                 await ctx.db.userInterest.create({
                     data: {
                         categoryId: input.categoryId,
-                        userId: input.userId
+                        userId: ctx.user.id
                     }
                 });
 
@@ -83,10 +82,9 @@ export const categoryRouter = createTRPCRouter({
         }),
 
 
-    unmarkCategoryInterest: publicProcedure
+    unmarkCategoryInterest: protectedProcedure
         .input(
             z.object({
-                userId: z.number(),
                 categoryId: z.number()
             })
         )
@@ -95,7 +93,7 @@ export const categoryRouter = createTRPCRouter({
                 await ctx.db.userInterest.deleteMany({
                     where: {
                         categoryId: input.categoryId,
-                        userId: input.userId
+                        userId: ctx.user.id
                     }
                 });
                 return {
