@@ -44,8 +44,8 @@ ESSENTIAL
 
 OPTIONAL (but important)
 - [x] store password in hash form (update remaining code acc/)
-- [ ] responsive website
 - [ ] do auth using JWT 
+- [ ] responsive website
 - [ ] can verifyOTP while login also
 
 THINK ABOUT
