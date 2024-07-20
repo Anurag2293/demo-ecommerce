@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Category, UserInterest } from "@prisma/client";
+import { type Category } from "@prisma/client";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 

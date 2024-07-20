@@ -13,7 +13,7 @@ const TOTAL_PAGES = Math.ceil(TOTAL_CATEGORIES / CATEGORIES_PER_PAGE);
 
 
 function getPaginationList(currentPage: number): Array<string | number> {
-    let paginationList: Array<string | number> = [];
+    const paginationList: Array<string | number> = [];
     if (currentPage > 4) {
         paginationList.push("...");
     }
@@ -52,12 +52,16 @@ export function FetchCategories() {
 
     const markCategoryInterest = api.category.markCategoryInterest.useMutation({
         onSuccess: (result) => {
-            if (!result.success) {
-                alert("Error marking Interest! Retry Again.");
-                return;
+            try {
+                if (!result.success) {
+                    alert("Error marking Interest! Retry Again.");
+                    return;
+                }
+                void utils.category.invalidate();
+                // alert("Category marked successfully!"); 
+            } catch (error) {
+                
             }
-            utils.category.invalidate();
-            // alert("Category marked successfully!"); 
         },
         onError: (result) => {
             console.error(result.shape);
@@ -67,12 +71,16 @@ export function FetchCategories() {
 
     const unmarkCategoryInteres = api.category.unmarkCategoryInterest.useMutation({
         onSuccess: (result) => {
-            if (!result.success) {
-                alert("Error unmarking Interest! Retry Again.");
-                return;
-            }
-            utils.category.invalidate();
-            // alert("Category unmarked successfully!"); 
+            try {
+                if (!result.success) {
+                    alert("Error unmarking Interest! Retry Again.");
+                    return;
+                }
+                void utils.category.invalidate();
+                // alert("Category unmarked successfully!");
+            } catch (error) {
+                
+            } 
         },
         onError: (result) => {
             console.error(result.shape);
@@ -86,7 +94,7 @@ export function FetchCategories() {
         router.push("/login");
     }
 
-    if ((data && !data.success) || isError) {
+    if ((data && !data.success) ?? isError) {
         return <div>
             Error Fetching Categories
         </div>
