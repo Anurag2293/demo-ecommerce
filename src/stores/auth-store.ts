@@ -1,6 +1,7 @@
 import { createStore } from "zustand";
 
 export type AuthState = {
+  userId: number;
   name: string;
   email: string;
   otp: string;
@@ -17,6 +18,7 @@ export type AuthStore = AuthState & AuthActions;
 
 export const initAuthStore = (): AuthState => {
   return {
+    userId: -1,
     name: "",
     email: "",
     otp: "",
@@ -26,6 +28,7 @@ export const initAuthStore = (): AuthState => {
 };
 
 export const defaultInitState: AuthState = {
+  userId: -1,
   name: "",
   email: "",
   otp: "",

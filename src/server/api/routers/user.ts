@@ -86,7 +86,7 @@ export const userRouter = createTRPCRouter({
 
   loginUser: publicProcedure
     .input(z.object({ email: z.string().email(), password: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) : Promise<{ success: boolean, message: string, user: User}> => {
       try {
         const currentUser = await ctx.db.user.findFirst({
           where: {
@@ -110,7 +110,7 @@ export const userRouter = createTRPCRouter({
       } catch (error) {
         return {
           success: false,
-          user: null,
+          user: { email: "", name: "", password: "", verified: false, id: -1 },
           message: (error as Error).message
         }
       }

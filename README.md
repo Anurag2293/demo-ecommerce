@@ -35,11 +35,12 @@ ESSENTIAL
 - [x] frontend & backend for otp signup
 - [x] frontend & backend for user signin
 - [x] create furnished navbar
-- [ ] create furnished ui for signup, otp & signin page
+- [x] create furnished ui for signup, otp & signin page
 
-- [ ] Display Categories using pagination (frontend & backend)
-- [ ] Let user's select their categories (db, backend, frontend)
-- [ ] Make UI nice for Categories page
+- [x] Display Categories using pagination (frontend & backend)
+- [x] Let users select their categories (db, backend, frontend)
+- [x] Let users deselect ther categories (backend & frontend)
+- [x] Make UI nice for Categories page
 
 OPTIONAL (but important)
 - [ ] store password in hash form (update remaining code acc/)
