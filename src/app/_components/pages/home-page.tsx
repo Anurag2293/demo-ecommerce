@@ -1,183 +1,40 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
 import { useAuthStore } from "~/providers/auth-store-provider";
 import { api } from "~/trpc/react";
-import Icon from "~/app/_components/icons/Icon";
 
-const TOTAL_CATEGORIES = 100;
-const CATEGORIES_PER_PAGE = 6;
-const TOTAL_PAGES = Math.ceil(TOTAL_CATEGORIES / CATEGORIES_PER_PAGE);
+import { FetchCategories } from "~/app/_components/fetch-categories";
 
-
-function getPaginationList(currentPage: number): Array<string | number> {
-    const paginationList: Array<string | number> = [];
-    if (currentPage > 4) {
-        paginationList.push("...");
-    }
-    for (let page = Math.max(1, currentPage - 3); page <= currentPage; page++) {
-        paginationList.push(page);
-    }
-    for (let page = currentPage + 1; page <= Math.min(currentPage + 3, TOTAL_PAGES); page++) {
-        paginationList.push(page);
-    }
-    if (currentPage < TOTAL_PAGES - 3) {
-        paginationList.push("...");
-    }
-    return paginationList;
-}
-
-
-export function FetchCategories() {
+export function HomePage() {
     const router = useRouter();
-    const { isAuthenticated, isVerified, userId } = useAuthStore(state => state);
-
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const utils = api.useUtils();
+    const { updateAuthState } = useAuthStore(state => state);
 
     const {
         data,
         isPending,
         isError
-    } = api.category.fetchCategories.useQuery(
-        {
-            skip: (currentPage - 1) * CATEGORIES_PER_PAGE,
-            limit: CATEGORIES_PER_PAGE,
-            userId
-        }
-    );
+    } = api.user.homePageVerify.useQuery();
 
-    const markCategoryInterest = api.category.markCategoryInterest.useMutation({
-        onSuccess: (result) => {
-            try {
-                if (!result.success) {
-                    alert("Error marking Interest! Retry Again.");
-                    return;
-                }
-                void utils.category.invalidate();
-                // alert("Category marked successfully!"); 
-            } catch (error) {
-                
-            }
-        },
-        onError: (result) => {
-            console.error(result.shape);
-            alert("INTERNAL ERROR: Retry Again.");
-        }
-    });
-
-    const unmarkCategoryInteres = api.category.unmarkCategoryInterest.useMutation({
-        onSuccess: (result) => {
-            try {
-                if (!result.success) {
-                    alert("Error unmarking Interest! Retry Again.");
-                    return;
-                }
-                void utils.category.invalidate();
-                // alert("Category unmarked successfully!");
-            } catch (error) {
-                
-            } 
-        },
-        onError: (result) => {
-            console.error(result.shape);
-            alert("INTERNAL ERROR: Retry Again.");
-        }
-    })
-
-    if (!isAuthenticated) {
-        router.push("/signup");
-    } else if (!isVerified) {
-        router.push("/login");
+    if ((data && !data.success) || isError) {
+        return router.push("/login");
     }
 
-    if ((data && !data.success) ?? isError) {
-        return <div>
-            Error Fetching Categories
+    if (isPending) {
+        return <div className="text-center">
+            <div role="status">
+                <svg aria-hidden="true" className="inline w-10 h-10 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+                </svg>
+                <span className="sr-only">Loading...</span>
+            </div>
         </div>
     }
 
-    const handleMarkInterest = (categoryId: number) => {
-        markCategoryInterest.mutate({ userId, categoryId });
+    if (data && data.success) {
+        console.log({ user: data.user })
     }
 
-    const handleUnMarkInterest = (categoryId: number) => {
-        unmarkCategoryInteres.mutate({ userId, categoryId });
-    }
-
-    return (
-        <div className="mt-7">
-            {isPending ?
-                <div role="status" className="space-y-5 animate-pulse max-w-lg">
-                    {Array.from({ length: CATEGORIES_PER_PAGE }).map((_, index) =>
-                        <div key={index} className="flex">
-                            <div className="size-6 bg-gray-300 rounded-full dark:bg-gray-600">
-                            </div>
-                            <div className="h-6 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-3/5">
-                            </div>
-                        </div>
-                    )}
-                </div>
-                :
-                <div className="space-y-5">
-                    {data?.allCategories.map((category) =>
-                        <div key={category.id} className="flex items-center gap-x-3">
-                            {data.interestedCategories.has(category.id) ?
-                                <span
-                                    className="cursor-pointer"
-                                    onClick={() => handleUnMarkInterest(category.id)}
-                                >
-                                    <Icon key={String(category.id)} name="checked-interest" />
-                                </span>
-                                :
-                                <span
-                                    className="cursor-pointer"
-                                    onClick={() => handleMarkInterest(category.id)}
-                                >
-                                    <Icon key={String(category.id)} name="unchecked-interest" />
-                                </span>
-                            }
-                            <span className="text-base font-normal">{category.categoryName}</span>
-                        </div>
-                    )}
-                </div>
-            }
-            <div className="mt-8 md:mt-10 max-w-min mx-auto flex items-center gap-x-2 text-[#ACACAC]">
-                <button onClick={() => setCurrentPage(1)}>{"<<"}</button>
-                <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>{"<"}</button>
-
-                {getPaginationList(currentPage).map((value, index) => {
-                    if (typeof value === 'string') {
-                        if (index === 0) {
-                            return <div key={index}
-                                onClick={() => setCurrentPage(p => p - 4)}
-                                className="cursor-pointer"
-                            >
-                                {value}
-                            </div>
-                        }
-
-                        return <div key={index}
-                            onClick={() => setCurrentPage(p => p + 4)}
-                            className="cursor-pointer"
-                        >
-                            {value}
-                        </div>
-                    }
-                    return <div key={index}
-                        onClick={() => setCurrentPage(value)}
-                        className={`cursor-pointer ${currentPage === value && 'text-black'}`}
-                    >
-                        {value}
-                    </div>
-                })}
-
-                <button disabled={currentPage === TOTAL_PAGES} onClick={() => setCurrentPage(p => p + 1)}>{">"}</button>
-                <button onClick={() => setCurrentPage(TOTAL_PAGES)}>{">>"}</button>
-            </div>
-        </div >
-    )
+    return <FetchCategories />
 }

@@ -3,9 +3,10 @@ import { z } from "zod";
 import type { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 import { generateOTP } from "~/utils/otp";
 import { sendOTPEmail } from "~/utils/email";
+import { signJwt } from "~/server/utils/jwt";
 
 const SALT_ROUNDS = 10;
 
@@ -134,6 +135,91 @@ export const userRouter = createTRPCRouter({
 					user: { email: "", name: "", password: "", verified: false, id: -1 },
 					message: (error as Error).message
 				}
+			}
+		}),
+
+	jwtLoginUser: publicProcedure
+		.input(
+			z.object({
+				email: z.string().email(),
+				password: z.string()
+			})
+		)
+		.mutation(async ({ ctx, input }): Promise<{ 
+			success: boolean, 
+			message: string, 
+			user: User, 
+			token: string 
+		}> => {
+			try {
+				const currentUser = await ctx.db.user.findFirst({
+					where: {
+						email: input.email
+					}
+				});
+				if (!currentUser) {
+					throw new Error("No such user exists!");
+				}
+				if (!currentUser.verified) {
+					throw new Error("User unverified!");
+				}
+
+				const match = await bcrypt.compare(input.password, currentUser.password);
+
+				if (!match) {
+					throw new Error("Incorrect Password!");
+				}
+
+				const token = signJwt({	
+					id: currentUser.id,
+					email: currentUser.email,
+					verified: currentUser.verified,
+					name: currentUser.name
+				});
+
+				return {
+					success: true,
+					user: currentUser,
+					message: "Login successful!",
+					token
+				}
+			} catch (error) {
+				return {
+					success: false,
+					user: { email: "", name: "", password: "", verified: false, id: -1 },
+					message: (error as Error).message,
+					token: ""
+				}
+			}
+		}),
+
+	homePageVerify: protectedProcedure
+		.query(async ({ ctx }) => {
+			try {
+				if (!ctx.user) {
+					throw new Error('User UnAuthorised!');
+				}
+				return {
+					success: true,
+					user: ctx.user,
+					message: 'User Authorised!'
+				} 
+			} catch (error) {
+				return {
+					success: false,
+					user: null,
+					message: (error as Error).message 
+				}
+			}
+		}),
+
+	jwtDemoQuery: protectedProcedure
+		.input(z.object({ name: z.string() }))
+		.query(async ({ ctx, input }) => {
+			console.log({ctx})
+			return {
+				message: `Hello ${input.name}`,
+				user: ctx.user
 			}
 		})
 });

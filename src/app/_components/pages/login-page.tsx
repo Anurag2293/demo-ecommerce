@@ -54,6 +54,33 @@ export function UserLogin() {
         }
     })
 
+    const jwtLoginUser = api.user.jwtLoginUser.useMutation({
+        onSuccess: (result) => {
+            if (!result.success) {
+                alert(result.message);
+                router.refresh();
+                return;
+            }
+            // TODO: Don't allow unverified user login
+            
+            localStorage.setItem('token', result.token);
+            alert(result.message);
+
+            updateAuthState({
+                userId: result.user.id,
+                email: result.user.email,
+                name: result.user.name,
+                otp: "",
+                isVerified: true,
+                isAuthenticated: true
+            })
+        },
+        onError: (result) => {
+            alert(result.message);
+            router.refresh();
+        }
+    })
+
     const {
         register,
         handleSubmit,
@@ -63,7 +90,8 @@ export function UserLogin() {
     });
 
     const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-        loginUser.mutate(data);
+        // loginUser.mutate(data);
+        jwtLoginUser.mutate(data);
     }
 
     return (

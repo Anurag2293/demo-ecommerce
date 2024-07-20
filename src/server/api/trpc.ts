@@ -6,11 +6,12 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
+import { verifyJwt } from "../utils/jwt";
 
 /**
  * 1. CONTEXT
@@ -81,3 +82,22 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+
+export const protectedProcedure = publicProcedure.use(async ({ ctx, next }) => {
+  const token = ctx.headers.get("Authorization")?.split(' ')[1];
+  const user = token ? verifyJwt(token) : null;
+
+  console.log({token});
+
+  if (!user) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      user
+    }
+  });
+});
