@@ -43,7 +43,8 @@ ESSENTIAL
 - [x] Make UI nice for Categories page
 
 OPTIONAL (but important)
-- [ ] store password in hash form (update remaining code acc/)
+- [x] store password in hash form (update remaining code acc/)
+- [ ] responsive website
 - [ ] do auth using JWT 
 - [ ] can verifyOTP while login also
 
