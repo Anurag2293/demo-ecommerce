@@ -11,6 +11,25 @@ const TOTAL_CATEGORIES = 100;
 const CATEGORIES_PER_PAGE = 6;
 const TOTAL_PAGES = Math.ceil(TOTAL_CATEGORIES / CATEGORIES_PER_PAGE);
 
+
+function getPaginationList(currentPage: number): Array<string | number> {
+    let paginationList: Array<string | number> = [];
+    if (currentPage > 4) {
+        paginationList.push("...");
+    }
+    for (let page = Math.max(1, currentPage - 3); page <= currentPage; page++) {
+        paginationList.push(page);
+    }
+    for (let page = currentPage + 1; page <= Math.min(currentPage + 3, TOTAL_PAGES); page++) {
+        paginationList.push(page);
+    }
+    if (currentPage < TOTAL_PAGES - 3) {
+        paginationList.push("...");
+    }
+    return paginationList;
+}
+
+
 export function FetchCategories() {
     const router = useRouter();
     const { isAuthenticated, isVerified, userId } = useAuthStore(state => state);
@@ -96,43 +115,58 @@ export function FetchCategories() {
                 </div>
                 :
                 <div className="space-y-5">
-                    {data?.allCategories.map((category) => {
-                        return (
-                            <div key={category.id} className="flex items-center gap-x-3">
-                                {data.interestedCategories.has(category.id) ?
-                                    <span
-                                        className="cursor-pointer"
-                                        onClick={() => handleUnMarkInterest(category.id)}
-                                    >
-                                        <Icon key={String(category.id)} name="checked-interest" />
-                                    </span>
-                                    :
-                                    <span
-                                        className="cursor-pointer"
-                                        onClick={() => handleMarkInterest(category.id)}
-                                    >
-                                        <Icon key={String(category.id)} name="unchecked-interest" />
-                                    </span>
-                                }
-                                <span className="text-base font-normal">{category.categoryName}</span>
-                            </div>
-                        )
-                    })}
+                    {data?.allCategories.map((category) =>
+                        <div key={category.id} className="flex items-center gap-x-3">
+                            {data.interestedCategories.has(category.id) ?
+                                <span
+                                    className="cursor-pointer"
+                                    onClick={() => handleUnMarkInterest(category.id)}
+                                >
+                                    <Icon key={String(category.id)} name="checked-interest" />
+                                </span>
+                                :
+                                <span
+                                    className="cursor-pointer"
+                                    onClick={() => handleMarkInterest(category.id)}
+                                >
+                                    <Icon key={String(category.id)} name="unchecked-interest" />
+                                </span>
+                            }
+                            <span className="text-base font-normal">{category.categoryName}</span>
+                        </div>
+                    )}
                 </div>
             }
-            <div className="mt-8 flex items-center gap-x-2 text-[#ACACAC]">
+            <div className="mt-8 md:mt-10 max-w-min mx-auto flex items-center gap-x-2 text-[#ACACAC]">
                 <button onClick={() => setCurrentPage(1)}>{"<<"}</button>
                 <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>{"<"}</button>
-                {Array.from({ length: TOTAL_PAGES }).map((_, index) => {
-                    return (
-                        <div key={index}
-                            onClick={() => setCurrentPage(index + 1)}
-                            className={`text-[#ACACAC] cursor-pointer ${currentPage === (index + 1) && 'text-black'}`}
+
+                {getPaginationList(currentPage).map((value, index) => {
+                    if (typeof value === 'string') {
+                        if (index === 0) {
+                            return <div key={index}
+                                onClick={() => setCurrentPage(p => p - 4)}
+                                className="cursor-pointer"
+                            >
+                                {value}
+                            </div>
+                        }
+
+                        return <div key={index}
+                            onClick={() => setCurrentPage(p => p + 4)}
+                            className="cursor-pointer"
                         >
-                            {index + 1}
+                            {value}
                         </div>
-                    )
+                    }
+                    return <div key={index}
+                        onClick={() => setCurrentPage(value)}
+                        className={`cursor-pointer ${currentPage === value && 'text-black'}`}
+                    >
+                        {value}
+                    </div>
                 })}
+
                 <button disabled={currentPage === TOTAL_PAGES} onClick={() => setCurrentPage(p => p + 1)}>{">"}</button>
                 <button onClick={() => setCurrentPage(TOTAL_PAGES)}>{">>"}</button>
             </div>

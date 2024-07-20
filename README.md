@@ -40,7 +40,7 @@ ESSENTIAL
 - [x] Display Categories using pagination (frontend & backend)
 - [x] Let users select their categories (db, backend, frontend)
 - [x] Let users deselect ther categories (backend & frontend)
-- [ ] Make UI nice for Categories page
+- [x] Make UI nice for Categories page
 
 OPTIONAL (but important)
 - [ ] store password in hash form (update remaining code acc/)
