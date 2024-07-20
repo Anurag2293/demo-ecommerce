@@ -4,8 +4,8 @@ import type { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
-import { generateOTP } from "~/utils/otp";
-import { sendOTPEmail } from "~/utils/email";
+import { generateOTP } from "~/server/utils/otp";
+import { sendOTPEmail } from "~/server/utils/email";
 import { signJwt } from "~/server/utils/jwt";
 
 const SALT_ROUNDS = 10;
