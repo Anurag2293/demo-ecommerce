@@ -8,32 +8,32 @@ import { type AuthStore, createAuthStore, initAuthStore } from "~/stores/auth-st
 export type AuthStoreApi = ReturnType<typeof createAuthStore>;
 
 export const AuthStoreContext = createContext<AuthStoreApi | undefined>(
-  undefined,
+	undefined,
 );
 
 export interface AuthStoreProviderProps {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 export const AuthStoreProvider = ({ children }: AuthStoreProviderProps) => {
-  const storeRef = useRef<AuthStoreApi>();
-  if (!storeRef.current) {
-    storeRef.current = createAuthStore(initAuthStore());
-  }
+	const storeRef = useRef<AuthStoreApi>();
+	if (!storeRef.current) {
+		storeRef.current = createAuthStore(initAuthStore());
+	}
 
-  return (
-    <AuthStoreContext.Provider value={storeRef.current}>
-      {children}
-    </AuthStoreContext.Provider>
-  );
+	return (
+		<AuthStoreContext.Provider value={storeRef.current}>
+			{children}
+		</AuthStoreContext.Provider>
+	);
 };
 
 export const useAuthStore = <T,>(selector: (store: AuthStore) => T): T => {
-  const authStoreContext = useContext(AuthStoreContext);
+	const authStoreContext = useContext(AuthStoreContext);
 
-  if (!authStoreContext) {
-    throw new Error(`useAuthStore must be used within AuthStoreProvider`);
-  }
+	if (!authStoreContext) {
+		throw new Error(`useAuthStore must be used within AuthStoreProvider`);
+	}
 
-  return useStore(authStoreContext, selector);
+	return useStore(authStoreContext, selector);
 };
