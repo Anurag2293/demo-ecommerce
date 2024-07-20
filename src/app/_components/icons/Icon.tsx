@@ -5,9 +5,10 @@ import LeftArrow from "./LeftArrow";
 import RightArrow from "./RightArrow";
 import CheckedInterest from "./CheckedInterest";
 import UnCheckedInterest from "./UnCheckedInterest";
+import Spinner from "./Spinner";
 
 interface IconProps {
-    name: "search" | "cart" | "left-arrow" | "right-arrow" | "checked-interest" | "unchecked-interest",
+    name: "search" | "cart" | "left-arrow" | "right-arrow" | "checked-interest" | "unchecked-interest" | "spinner",
 }
 
 const Icon: React.FC<IconProps> = ({ name }) => {
@@ -24,6 +25,8 @@ const Icon: React.FC<IconProps> = ({ name }) => {
             return <CheckedInterest />
         case "unchecked-interest":
             return <UnCheckedInterest />
+        case "spinner":
+            return <Spinner /> 
         default:
             return null; // Or throw an error
     }

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-import { useAuthStore } from "~/providers/auth-store-provider";
 import { api } from "~/trpc/react";
 import Icon from "~/app/_components/icons/Icon";
 
@@ -28,7 +28,7 @@ function getPaginationList(currentPage: number): Array<string | number> {
 }
 
 export function FetchCategories() {
-    const { userId } = useAuthStore(state => state);
+    const router = useRouter();
 
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -41,8 +41,7 @@ export function FetchCategories() {
     } = api.category.fetchCategories.useQuery(
         {
             skip: (currentPage - 1) * CATEGORIES_PER_PAGE,
-            limit: CATEGORIES_PER_PAGE,
-            userId
+            limit: CATEGORIES_PER_PAGE
         }
     );
 
@@ -84,18 +83,23 @@ export function FetchCategories() {
         }
     })
 
-    if ((data && !data.success) ?? isError) {
+    if ((data && !data.success)) {
         return <div>
             Error Fetching Categories
         </div>
     }
 
+    if (isError) {
+        // alert("User Unauthorised!");
+        router.push("/login");
+    }
+
     const handleMarkInterest = (categoryId: number) => {
-        markCategoryInterest.mutate({ userId, categoryId });
+        markCategoryInterest.mutate({ categoryId });
     }
 
     const handleUnMarkInterest = (categoryId: number) => {
-        unmarkCategoryInteres.mutate({ userId, categoryId });
+        unmarkCategoryInteres.mutate({ categoryId });
     }
 
     return (
