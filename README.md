@@ -37,7 +37,7 @@ ESSENTIAL
 - [x] create furnished navbar
 - [x] create furnished ui for signup, otp & signin page
 
-- [ ] Display Categories using pagination (frontend & backend)
+- [x] Display Categories using pagination (frontend & backend)
 - [ ] Let user's select their categories (db, backend, frontend)
 - [ ] Make UI nice for Categories page
 
