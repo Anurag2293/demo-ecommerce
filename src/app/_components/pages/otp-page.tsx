@@ -43,6 +43,7 @@ export function ValidateOTP() {
             }
             
             updateAuthState({
+                userId: result.user.id,
                 name: result.user.name,
                 email: result.user.email,
                 isAuthenticated: true,

@@ -40,8 +40,9 @@ export function UserLogin() {
             alert(result.message);
 
             updateAuthState({
-                email: result.user?.email ?? "",
-                name: result.user?.name ?? "",
+                userId: result.user.id,
+                email: result.user.email,
+                name: result.user.name,
                 otp: "",
                 isVerified: true,
                 isAuthenticated: true

@@ -44,6 +44,7 @@ export function UserSignup() {
 				console.log(result.user);
 
 				updateAuthState({
+					userId: result.user?.id ?? -1,
 					email: variables.email,
 					name: variables.name,
 					otp: result.otp,
