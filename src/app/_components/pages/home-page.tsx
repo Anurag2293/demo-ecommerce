@@ -38,12 +38,28 @@ export function FetchCategories() {
                 return;
             }
             utils.category.invalidate();
-            alert("Category marked successfully!"); 
+            // alert("Category marked successfully!"); 
         },
         onError: (result) => {
+            console.error(result.shape);
             alert("INTERNAL ERROR: Retry Again.");
         }
     });
+
+    const unmarkCategoryInteres = api.category.unmarkCategoryInterest.useMutation({
+        onSuccess: (result) => {
+            if (!result.success) {
+                alert("Error unmarking Interest! Retry Again.");
+                return;
+            }
+            utils.category.invalidate();
+            // alert("Category unmarked successfully!"); 
+        },
+        onError: (result) => {
+            console.error(result.shape);
+            alert("INTERNAL ERROR: Retry Again.");
+        }
+    })
 
     if (!isAuthenticated) {
         router.push("/signup");
@@ -62,16 +78,20 @@ export function FetchCategories() {
     }
 
     const handleUnMarkInterest = (categoryId: number) => {
-
+        unmarkCategoryInteres.mutate({ userId, categoryId });
     }
 
     return (
         <div className="mt-7">
-
             {isPending ?
                 <div role="status" className="space-y-5 animate-pulse max-w-lg">
-                    {Array.from({ length: CATEGORIES_PER_PAGE }).map((_, index) => 
-                        <div key={index} className="h-6 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-4/5"></div>
+                    {Array.from({ length: CATEGORIES_PER_PAGE }).map((_, index) =>
+                        <div key={index} className="flex">
+                            <div className="size-6 bg-gray-300 rounded-full dark:bg-gray-600">
+                            </div>
+                            <div className="h-6 ms-2 bg-gray-300 rounded-full dark:bg-gray-600 w-3/5">
+                            </div>
+                        </div>
                     )}
                 </div>
                 :

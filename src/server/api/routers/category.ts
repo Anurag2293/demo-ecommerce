@@ -70,7 +70,37 @@ export const categoryRouter = createTRPCRouter({
 
                 return {
                     success: true,
-                    message: "Marked category successfully!"
+                    message: "Category marked successfully!"
+                }
+            } catch (error) {
+                console.error("ERROR MARKING INTEREST");
+                console.log({error});
+                return {
+                    success: false,
+                    message: (error as Error).message
+                }
+            }
+        }),
+
+
+    unmarkCategoryInterest: publicProcedure
+        .input(
+            z.object({
+                userId: z.number(),
+                categoryId: z.number()
+            })
+        )
+        .mutation(async ({ ctx, input }) => {
+            try {
+                await ctx.db.userInterest.deleteMany({
+                    where: {
+                        categoryId: input.categoryId,
+                        userId: input.userId
+                    }
+                });
+                return {
+                    success: true,
+                    message: "Category unmarked succesfully"
                 }
             } catch (error) {
                 console.error("ERROR MARKING INTEREST");

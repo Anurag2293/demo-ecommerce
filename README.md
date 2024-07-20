@@ -38,7 +38,8 @@ ESSENTIAL
 - [x] create furnished ui for signup, otp & signin page
 
 - [x] Display Categories using pagination (frontend & backend)
-- [ ] Let user's select their categories (db, backend, frontend)
+- [x] Let users select their categories (db, backend, frontend)
+- [x] Let users deselect ther categories (backend & frontend)
 - [ ] Make UI nice for Categories page
 
 OPTIONAL (but important)
