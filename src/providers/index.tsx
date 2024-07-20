@@ -1,6 +1,4 @@
-
-
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 import { AuthStoreProvider } from "~/providers/auth-store-provider";
 import { TRPCReactProvider } from "~/trpc/react";

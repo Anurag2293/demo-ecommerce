@@ -16,10 +16,10 @@ export function HomePage() {
         data,
         isPending,
         isError
-    } = api.user.homePageVerify.useQuery();
+    } = api.user.loginAuthentication.useQuery();
 
     useEffect(() => {
-        if ((data && !data.success) || isError) {
+        if ((data && !data.success) ?? isError) {
             router.push("/login");
         } else if (data && data.success && data.user) {
             updateAuthState({

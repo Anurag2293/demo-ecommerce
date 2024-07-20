@@ -193,7 +193,7 @@ export const userRouter = createTRPCRouter({
 			}
 		}),
 
-	homePageVerify: protectedProcedure
+	loginAuthentication: protectedProcedure
 		.query(async ({ ctx }) => {
 			try {
 				if (!ctx.user) {
