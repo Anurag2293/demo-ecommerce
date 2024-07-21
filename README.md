@@ -23,7 +23,7 @@ Submit Answer
 
 ## TODO
 
-ESSENTIAL 
+ESSENTIAL
 - [x] deploy to vercel
 - [x] learn about trpc
 - [x] demo api with trpc
@@ -44,9 +44,11 @@ ESSENTIAL
 
 OPTIONAL (but important)
 - [x] store password in hash form (update remaining code acc/)
-- [x] do auth using JWT 
+- [x] do auth using JWT
+- [x] alert dialogs
+- [x] Logout Button
 - [ ] responsive website
 - [ ] can verifyOTP while login also
 
 THINK ABOUT
-- [ ] Where will you fetch user info if we have JWT Auth and we can directly login using JWT tokens?
+- [x] Where will you fetch user info if we have JWT Auth and we can directly login using JWT tokens?
