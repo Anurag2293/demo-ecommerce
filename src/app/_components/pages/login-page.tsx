@@ -30,49 +30,6 @@ export function UserLogin() {
     router.push("/");
   }
 
-  const loginUser = api.user.loginUser.useMutation({
-    onSuccess: (result) => {
-      if (!result.success) {
-        // alert(result.message);
-        toast({
-          variant: "destructive",
-          title: "Login Error!",
-          description: result.message,
-        });
-
-        router.refresh();
-        return;
-      }
-      // TODO: Don't allow unverified user login
-
-      // alert(result.message);
-
-      toast({
-        variant: "destructive",
-        title: "Login Successful!",
-        description: result.message,
-      });
-
-      updateAuthState({
-        userId: result.user.id,
-        email: result.user.email,
-        name: result.user.name,
-        otp: "",
-        isVerified: true,
-        isAuthenticated: true,
-      });
-    },
-    onError: (result) => {
-      // alert(result.message
-      toast({
-        variant: "destructive",
-        title: "Login Error!",
-        description: result.message,
-      });
-      router.refresh();
-    },
-  });
-
   const jwtLoginUser = api.user.jwtLoginUser.useMutation({
     onSuccess: (result) => {
       if (!result.success) {
@@ -88,8 +45,7 @@ export function UserLogin() {
       localStorage.setItem("token", result.token);
 
       toast({
-        variant: "destructive",
-        title: "Login Successful!",
+        title: "Welcome to ECOMMERCE!",
         description: result.message,
       });
 
@@ -181,10 +137,10 @@ export function UserLogin() {
 
         <button
           type="submit"
-          disabled={loginUser.isPending}
+          disabled={jwtLoginUser.isPending}
           className="mt-4 w-full rounded-[6px] bg-black py-4 text-base font-medium uppercase text-white"
         >
-          {loginUser.isPending ? "Logging in..." : "Login"}
+          {jwtLoginUser.isPending ? "Logging in..." : "Login"}
         </button>
       </form>
       <div className="mt-7 h-px bg-[#C1C1C1]"></div>
@@ -200,3 +156,48 @@ export function UserLogin() {
     </div>
   );
 }
+
+/*
+const loginUser = api.user.loginUser.useMutation({
+    onSuccess: (result) => {
+      if (!result.success) {
+        // alert(result.message);
+        toast({
+          variant: "destructive",
+          title: "Login Error!",
+          description: result.message,
+        });
+
+        router.refresh();
+        return;
+      }
+      // TODO: Don't allow unverified user login
+
+      // alert(result.message);
+
+      toast({
+        variant: "destructive",
+        title: "Login Successful!",
+        description: result.message,
+      });
+
+      updateAuthState({
+        userId: result.user.id,
+        email: result.user.email,
+        name: result.user.name,
+        otp: "",
+        isVerified: true,
+        isAuthenticated: true,
+      });
+    },
+    onError: (result) => {
+      // alert(result.message
+      toast({
+        variant: "destructive",
+        title: "Login Error!",
+        description: result.message,
+      });
+      router.refresh();
+    },
+  });
+*/
