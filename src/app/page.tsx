@@ -1,6 +1,5 @@
 
 import { HomePage } from "./_components/pages/home-page";
-import { FetchCategories } from "./_components/fetch-categories";
 
 export default async function Home() {
 	return (

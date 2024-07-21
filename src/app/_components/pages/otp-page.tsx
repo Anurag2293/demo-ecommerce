@@ -75,7 +75,7 @@ export function ValidateOTP() {
         description: "Login to gain access to your account!",
       });
     },
-    onError: (error) => {
+    onError: () => {
       // alert("OTP authentication error!");
       toast({
         variant: "destructive",
