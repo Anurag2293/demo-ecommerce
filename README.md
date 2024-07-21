@@ -45,7 +45,7 @@ ESSENTIAL
 OPTIONAL (but important)
 - [x] store password in hash form (update remaining code acc/)
 - [x] do auth using JWT
-- [ ] alert dialogs
+- [x] alert dialogs
 - [ ] Logout Button
 - [ ] responsive website
 - [ ] can verifyOTP while login also
